@@ -2,6 +2,11 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class Prim
 {
+    
+    
+    /** 
+     * @param String[]args
+     */
     public static void main(String[]args) 
     {
         Grafo grafoEjemplo = new Grafo(7);
@@ -33,12 +38,17 @@ public class Prim
         System.out.println("\nPeso total: "+res.pesoTotal);
         
     }
-
+    
     static public class Grafo
     {
         int vertices;
         int pesoTotal;
         LinkedList<Node>[] listaAdyacencia;
+
+        /**
+         * 
+         * @param vertices
+         */
         public Grafo(int vertices)
         {
             this.vertices = vertices;
@@ -51,6 +61,13 @@ public class Prim
             }
 
         }
+
+        /**
+         * 
+         * @param nodoRaizAnterior
+         * @param numNodo
+         * @param peso
+         */
         public void agregarNodo(int nodoRaizAnterior, int numNodo, int peso)
         {
             this.listaAdyacencia[nodoRaizAnterior].add(new Node(numNodo,peso));
@@ -63,6 +80,12 @@ public class Prim
     {
         int numNodo;
         int peso;
+
+        /**
+         * 
+         * @param numNodo
+         * @param peso
+         */
         public Node(int numNodo, int peso) 
         {
             this.numNodo= numNodo;
@@ -71,6 +94,12 @@ public class Prim
     }
 
 
+    
+    /** 
+     * @param grafo
+     * @param nodoInicial
+     * @return Grafo
+     */
     public static Grafo prim(Grafo grafo, int nodoInicial)
     {
         Grafo result = new Grafo(grafo.vertices);
