@@ -52,9 +52,9 @@ public class Prim
         public void agregarNodo(int nodoRaizAnterior, int numNodo, int peso)
         {
             this.listaAdyacencia[nodoRaizAnterior].add(new Node(numNodo,peso));
+            this.listaAdyacencia[numNodo].add(new Node(nodoRaizAnterior,peso));
         }
     }
-
 
     static public class Node
     {
@@ -96,4 +96,5 @@ public class Prim
         }
         return result;
     }
+
 }
