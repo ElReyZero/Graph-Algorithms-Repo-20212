@@ -5,54 +5,57 @@ public class Prim
     public static void main(String[]args) 
     {
         Grafo grafoEjemplo = new Grafo(7);
-        grafoEjemplo.agregarNodo(0,1,3);
-        grafoEjemplo.agregarNodo(1,2,5);
-        grafoEjemplo.agregarNodo(1,3,7);
-        grafoEjemplo.agregarNodo(1,3,7);
-        grafoEjemplo.agregarNodo(2,5,7);
-        grafoEjemplo.agregarNodo(2,3,9);
-        grafoEjemplo.agregarNodo(3,5,4);
-        grafoEjemplo.agregarNodo(3,6,3);
-        grafoEjemplo.agregarNodo(3,4,4);
-        grafoEjemplo.agregarNodo(4,6,7);
+        grafoEjemplo.agregarNodo(0,1,5);
+        grafoEjemplo.agregarNodo(0,2,7);
+        grafoEjemplo.agregarNodo(0,3,12);
+        grafoEjemplo.agregarNodo(1,4,7);
+        grafoEjemplo.agregarNodo(1,2,9);
+        grafoEjemplo.agregarNodo(2,4,4);
+        grafoEjemplo.agregarNodo(2,5,3);
+        grafoEjemplo.agregarNodo(2,3,4);
+        grafoEjemplo.agregarNodo(3,5,7);
+        grafoEjemplo.agregarNodo(4,6,5);
+        grafoEjemplo.agregarNodo(4,5,2);
         grafoEjemplo.agregarNodo(5,6,2);
-        grafoEjemplo.agregarNodo(5,7,5);
-        grafoEjemplo.agregarNodo(6,7,2);
 
-        System.out.println(Prim.prim(grafoEjemplo, 1));
-    }
-
-    /*static class Arco
-    {
-        String anterior;
-        String siguiente;
-        int peso;
-        public Arco(String anterior,String siguiente, int peso) 
+        Grafo res = (Prim.prim(grafoEjemplo, 1));
+        String impresion="";
+        for (int i = 0; i < res.vertices; i++)
         {
-            this.anterior= anterior;
-            this.siguiente= siguiente;
-            this.peso= peso;
+            LinkedList<Node> n = res.listaAdyacencia[i];
+            impresion += "\n\nNodo inicial: "+i+" ";
+            for (Node nodo:n)
+            {
+                impresion += ("\nNodo destino: " + nodo.numNodo + " - Peso: "+nodo.peso);
+            }
         }
-    }*/
+        System.out.println(impresion);
+        System.out.println("\nPeso total: "+res.pesoTotal);
+        
+    }
 
     static public class Grafo
     {
         int vertices;
+        int pesoTotal;
         LinkedList<Node>[] listaAdyacencia;
         public Grafo(int vertices)
         {
             this.vertices = vertices;
             listaAdyacencia = (LinkedList<Node>[]) new LinkedList<?>[vertices];
+
+
             for(int i = 0; i < vertices; i++)
             {
                 listaAdyacencia[i] = new LinkedList<Node>();
-                listaAdyacencia[i].add( new Node(i,0) );
             }
+
         }
         public void agregarNodo(int nodoRaizAnterior, int numNodo, int peso)
         {
             this.listaAdyacencia[nodoRaizAnterior].add(new Node(numNodo,peso));
             this.listaAdyacencia[numNodo].add(new Node(nodoRaizAnterior,peso));
+            this.pesoTotal += peso;
         }
     }
 
@@ -68,31 +71,32 @@ public class Prim
     }
 
 
-    public static LinkedList<Node> prim(Grafo grafo, int nodoInicial)
+    public static Grafo prim(Grafo grafo, int nodoInicial)
     {
-        LinkedList<Node> result = new LinkedList<Node>();
-        result.add(grafo.listaAdyacencia[nodoInicial].getFirst());
+        Grafo result = new Grafo(grafo.vertices);
         ArrayList<Integer> recorridos = new ArrayList<Integer>();
-        while (result.size() < grafo.vertices)
+        recorridos.add(nodoInicial);
+        while (recorridos.size() < grafo.vertices)
         {
             Integer infinito = Integer.MAX_VALUE;
             int min=infinito;
             Node minNode = new Node(-1,infinito);
-            for (Node nodo: result)
+            int i = 0; 
+            for (int j : recorridos)
             {
-                LinkedList<Node> listaNodo = grafo.listaAdyacencia[nodo.numNodo];
+                LinkedList<Node> listaNodo = grafo.listaAdyacencia[j];
                 for (Node adyacente:listaNodo)
                 {
                     if (adyacente.peso<min && !recorridos.contains(adyacente.numNodo))
                     {
-
+                        i=j;
                         min = adyacente.peso;
                         minNode = adyacente;
                     }
                 }
             }
             recorridos.add(minNode.numNodo);
-            result.add(minNode);
+            result.agregarNodo(i, minNode.numNodo, min);
         }
         return result;
     }
