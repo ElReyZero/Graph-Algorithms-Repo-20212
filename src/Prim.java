@@ -4,21 +4,21 @@ public class Prim
 {
     public static void main(String[]args) 
     {
-        Grafo grafoEjemplo = new Grafo(7);
-        grafoEjemplo.agregarNodo(0,1,5);
-        grafoEjemplo.agregarNodo(0,2,7);
-        grafoEjemplo.agregarNodo(0,3,12);
-        grafoEjemplo.agregarNodo(1,4,7);
-        grafoEjemplo.agregarNodo(1,2,9);
-        grafoEjemplo.agregarNodo(2,4,4);
-        grafoEjemplo.agregarNodo(2,5,3);
-        grafoEjemplo.agregarNodo(2,3,4);
-        grafoEjemplo.agregarNodo(3,5,7);
-        grafoEjemplo.agregarNodo(4,6,5);
-        grafoEjemplo.agregarNodo(4,5,2);
-        grafoEjemplo.agregarNodo(5,6,2);
+        Grafo grafoEjemplo = new Grafo(6);
+        grafoEjemplo.agregarNodo(0,1,6);
+        grafoEjemplo.agregarNodo(0,2,1);
+        grafoEjemplo.agregarNodo(0,3,5);
+        grafoEjemplo.agregarNodo(1,2,5);
+        grafoEjemplo.agregarNodo(1,4,3);
+        grafoEjemplo.agregarNodo(2,3,5);
+        grafoEjemplo.agregarNodo(2,5,4);
+        grafoEjemplo.agregarNodo(2,4,6);
+        grafoEjemplo.agregarNodo(3,5,2);
+        grafoEjemplo.agregarNodo(4,5,6);
+        ///grafoEjemplo.agregarNodo(4,5,2);
+        ///grafoEjemplo.agregarNodo(5,6,2);
 
-        Grafo res = (Prim.prim(grafoEjemplo, 1));
+        Grafo res = (Prim.prim(grafoEjemplo, 0));
         String impresion="";
         for (int i = 0; i < res.vertices; i++)
         {
