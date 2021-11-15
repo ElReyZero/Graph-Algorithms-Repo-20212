@@ -5,6 +5,7 @@ public class Prim
     
     
     /** 
+     * Metodo main del programa
      * @param String[]args
      */
     public static void main(String[]args) 
@@ -46,8 +47,9 @@ public class Prim
         LinkedList<Node>[] listaAdyacencia;
 
         /**
-         * 
-         * @param vertices
+         * Constructor del grafo
+         * @param vertices Cantidad de vertices del grafo
+         * @param listaAdyacencia Es la lista que contiene los nodos del grafo
          */
         public Grafo(int vertices)
         {
@@ -63,10 +65,11 @@ public class Prim
         }
 
         /**
-         * 
-         * @param nodoRaizAnterior
-         * @param numNodo
-         * @param peso
+         * Metodo para agregar un nodo y un arco al grafo
+         * Se necesita el valor del nodo a agregar, el valor del nodo anterior y el peso del arco entre ellos
+         * @param nodoRaizAnterior Valor del nodo anterior
+         * @param numNodo Valor del nodo a insertar
+         * @param peso Peso del arco entre ambos nodos
          */
         public void agregarNodo(int nodoRaizAnterior, int numNodo, int peso)
         {
@@ -82,9 +85,9 @@ public class Prim
         int peso;
 
         /**
-         * 
-         * @param numNodo
-         * @param peso
+         * Constructor de un nodo
+         * @param numNodo Valor del nodo
+         * @param peso Peso del arco entre el nodo y el nodo raiz dado por su posicion en la lista del grafo
          */
         public Node(int numNodo, int peso) 
         {
@@ -96,27 +99,40 @@ public class Prim
 
     
     /** 
-     * @param grafo
-     * @param nodoInicial
-     * @return Grafo
+     * Algoritmo de PRIM para hallar el MST de un grafo 
+     * @param grafo Grafo sobre el cual se va a realizar el algoritmo
+     * @param nodoInicial El valor del nodo inicial para tomar como primer subgrafo
+     * @return  Grafo de recubrimiento minimo o MST
      */
     public static Grafo prim(Grafo grafo, int nodoInicial)
     {
         Grafo result = new Grafo(grafo.vertices);
-        ArrayList<Integer> recorridos = new ArrayList<Integer>();
+        ArrayList<Integer> recorridos = new ArrayList<Integer>();///Lista que nos facilita saber si un nodo ya fue recorrido por el MST
         recorridos.add(nodoInicial);
         while (recorridos.size() < grafo.vertices)
+        /**
+         * Esta operacion se encarga de añadir nodos al subgrafo result hasta que todos los nodos del grafo inicial se encuentren en result
+         */
         {
             Integer infinito = Integer.MAX_VALUE;
             int min=infinito;
-            Node minNode = new Node(-1,infinito);
+            Node minNode = new Node(-1,infinito); ///Se crea un nodo con peso infinito para que cualquier nodo sea tomado al comenzar el bucle
             int i = 0; 
             for (int j : recorridos)
+            /**
+             * Se recorren los nodos del subgrafo para poder revisar el peso de sus arcos
+             */
             {
                 LinkedList<Node> listaNodo = grafo.listaAdyacencia[j];
                 for (Node adyacente:listaNodo)
                 {
+                    /**
+                     * Se recorren los arcos de un nodo para hallar cual es el arco minimo que conecta a los subgrafos
+                     */
                     if (adyacente.peso<min && !recorridos.contains(adyacente.numNodo))
+                    /**
+                     * Se compara con lo que venia siendo el arco minimo y si es menor y el nodo que conecta no ha sido recorrido, se modifica el candidato para menor arco
+                     */
                     {
                         i=j;
                         min = adyacente.peso;
