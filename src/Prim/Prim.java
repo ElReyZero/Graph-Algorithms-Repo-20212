@@ -1,43 +1,56 @@
+package Prim;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 @SuppressWarnings("unchecked")
 public class Prim
 {
-    
-    
     /** 
      * Metodo main del programa
      * @param String[]args
      */
     public static void main(String[]args) 
     {
-        Grafo grafoEjemplo = new Grafo(6);
-        grafoEjemplo.agregarNodo(0,1,6);
-        grafoEjemplo.agregarNodo(0,2,1);
-        grafoEjemplo.agregarNodo(0,3,5);
-        grafoEjemplo.agregarNodo(1,2,5);
-        grafoEjemplo.agregarNodo(1,4,3);
-        grafoEjemplo.agregarNodo(2,3,5);
-        grafoEjemplo.agregarNodo(2,5,4);
-        grafoEjemplo.agregarNodo(2,4,6);
-        grafoEjemplo.agregarNodo(3,5,2);
-        grafoEjemplo.agregarNodo(4,5,6);
-        ///grafoEjemplo.agregarNodo(4,5,2);
-        ///grafoEjemplo.agregarNodo(5,6,2);
-
-        Grafo res = (Prim.prim(grafoEjemplo, 0));
-        String impresion="";
-        for (int i = 0; i < res.vertices; i++)
-        {
-            LinkedList<Node> n = res.listaAdyacencia[i];
-            impresion += "\n\nNodo inicial: "+i+" ";
-            for (Node nodo:n)
+        try 
+        (
+            InputStreamReader is = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(is);
+        )
             {
-                impresion += ("\nNodo destino: " + nodo.numNodo + " - Peso: "+nodo.peso);
-            }
+                Grafo g;
+                String line = br.readLine();
+                int contador = 0;
+                while(line!=null && line.length()>0 && !"0".equals(line))
+                {
+                    final String[] dataStr = line.split(" ");
+                    g = new Grafo(Integer.parseInt(dataStr[0]));
+                    contador++;
+                    for (int i = 1; i<dataStr.length; i++)
+                    {
+                        final String[] nodoStr = dataStr[i].split(",");
+                        g.agregarNodo(Integer.parseInt(nodoStr[0]), Integer.parseInt(nodoStr[1]), Integer.parseInt(nodoStr[2]));
+                    }
+                    Grafo res = (Prim.prim(g, 0));
+                    String impresion="---------------------------------------------\nGrafo Caso #: " + contador;
+                    for (int i = 0; i < res.vertices; i++)
+                    {
+                        LinkedList<Node> n = res.listaAdyacencia[i];
+                        impresion += "\n\nNodo inicial: "+i+" ";
+                        for (Node nodo:n)
+                        {
+                            impresion += ("\nNodo destino: " + nodo.numNodo + " - Peso: "+nodo.peso);
+                        }
+                    }
+                    System.out.println(impresion);
+                    System.out.println("\nPeso total: "+res.pesoTotal);                                        
+                    line = br.readLine();
+                }           
+            } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
         }
-        System.out.println(impresion);
-        System.out.println("\nPeso total: "+res.pesoTotal);
-        
     }
     
     static public class Grafo
