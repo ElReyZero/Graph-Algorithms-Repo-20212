@@ -1,6 +1,7 @@
 package Kruskal;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Kruskal 
 {
@@ -17,13 +18,44 @@ public class Kruskal
         grafoEjemplo.agregarArco(2,4,6);
         grafoEjemplo.agregarArco(3,5,2);
         grafoEjemplo.agregarArco(4,5,6);
-        mergesort(grafoEjemplo.listaArcos,0,grafoEjemplo.listaArcos.size()-1);
-        for(Arco a:grafoEjemplo.listaArcos)
+        Grafo result = kruskal(grafoEjemplo);   
+        for (int i =0;i<result.vertices;i++)
         {
-            System.out.println(a.peso);
-        }       
+            String impresion="";
+            for(int j =0;j<result.vertices;j++)
+            {
+                impresion += result.matAdj[i][j]+", ";
+            }
+            System.out.println(impresion);
+        }
     }
     
+    public static void mergesort(int A[],int izq, int der){
+        if (izq < der){
+                int m=(izq+der)/2;
+                mergesort(A,izq, m);
+                mergesort(A,m+1, der);                                                                                
+                merge(A,izq, m, der);                                                                                 
+        }
+    }
+    public static void merge(int A[],int izq, int m, int der){
+        int i, j, k;
+        int [] B = new int[A.length]; //array auxiliar
+        for (i=izq; i<=der; i++)      //copia ambas mitades en el array auxiliar                                       
+             B[i]=A[i];
+     
+        i=izq; j=m+1; k=izq;
+          
+        while (i<=m && j<=der) //copia el siguiente elemento más grande                                      
+               if (B[i]<=B[j])
+                   A[k++]=B[i++];
+               else
+                   A[k++]=B[j++];
+             
+        while (i<=m)         //copia los elementos que quedan de la
+              A[k++]=B[i++]; //primera mitad (si los hay)
+     }
+
     static class Arco
     {
         int anterior;
@@ -40,76 +72,23 @@ public class Kruskal
     }
 
 
-    /**
-     * Copiamos el algorimto merge sort de internet par organizar los arcos al comienzo
-     * @param A
-     * @param izq
-     * @param der
-     */
-
-    public static void mergesort(ArrayList<Arco> arcos,int izq, int der){
-        if (izq < der){
-                int m=(izq+der)/2;
-                mergesort(arcos,izq, m);
-                mergesort(arcos,m+1, der);                                                                                
-                merge(arcos,izq, m, der);                                                                                 
-        }
-    }
-
-    public static void merge(ArrayList<Arco> arcos,int izq, int m, int der){
-        int i, j, k;
-        ArrayList<Arco> aux = new ArrayList<Arco>(); //array auxiliar
-        for(i=0; i<=arcos.size(); i++) 
-        {
-            aux.add(new Arco(0,0,0));
-        }
-        for (i=izq; i<=der; i++)      //copia ambas mitades en el array auxiliar                                       
-        //B[i]=A[i];
-        {
-            aux.set(i,arcos.get(i));
-        }
-        //arcos.remove(i);
-        //arcos.add(i,new Arco(1,2,3));
-
-
-        i=izq; j=m+1; k=izq;
-        while (i<=m && j<=der) //copia el siguiente elemento más grande                                      
-               //if (B[i]<=B[j])
-               //A[k++]=B[i++];
-               if (aux.get(i).peso<=aux.get(j).peso)
-               {
-                   arcos.set(k++,aux.get(i++));
-               }
-               //else
-                   //A[k++]=B[j++];
-                else
-                {
-                    arcos.set(k++,aux.get(j++));
-                }
-             
-        while (i<=m)         //copia los elementos que quedan de la
-        {
-            arcos.set(k++,aux.get(i++));
-        }
-              //A[k++]=B[i++]; //primera mitad (si los hay)
-     }
-    
     static public class Grafo
     {
         int vertices;
         int arcos;
         int[][] matAdj;
-        ArrayList<Integer> listaDeNodos = new ArrayList<Integer>();
-        ArrayList<Arco> listaArcos = new ArrayList<Arco>();
+        //ArrayList<Integer> listaDeNodos = new ArrayList<Integer>();
+        //ArrayList<Arco> listaArcos = new ArrayList<Arco>();
         public Grafo(int tamano)
         {
             this.vertices = tamano;
             this.matAdj = new int[tamano][tamano];
-
+            /*
             for (int i = 0; i < tamano; i++) 
             {
                 listaDeNodos.add(i);
             }
+            */
         }
 
         public void agregarArco(int nodoInicio, int nodoFin, int peso)
@@ -117,35 +96,139 @@ public class Kruskal
             this.matAdj[nodoInicio][nodoFin] = peso;
             this.matAdj[nodoFin][nodoInicio] = peso;
             this.arcos += 1;
-            this.listaArcos.add(new Arco(nodoInicio, nodoFin, peso));
+            //this.listaArcos.add(new Arco(nodoInicio, nodoFin, peso));
         }
-        
+        public void removeArco(int nodoInicio,int nodoFin)
+        {
+            this.matAdj[nodoInicio][nodoFin] =0;
+            this.matAdj[nodoFin][nodoInicio] =0;
+            this.arcos -=1;
+        }
+        /*
         public void ordenarArcos()
         {
-            mergesort(listaArcos,0,listaArcos.size());
+            mergesort(pesos,0,arcos-1);
         }
+        */
     }
 
     
     /** 
      * @param grafo
      */
-    public Grafo kruskal(Grafo grafo)
+    public static Grafo kruskal(Grafo grafo)
     {
         Grafo result = new Grafo(grafo.vertices);
         int[][] matriz = grafo.matAdj;
-        ArrayList<Integer> visitados = new ArrayList<Integer>();
-        for (int i = 0; i < matriz.length; i++)
+        int pesos[] = new int[grafo.arcos];
+        int i = 0;
+        int j = 0;
+        int k =0;
+        while (i<grafo.vertices)
         {
-            for (int j = 0; j < matriz[i].length; i++)
+            if (matriz[i][j] != 0)
             {
-                if (matriz[i][j] !=0)
-                {
-
-                } 
+                pesos[k] = matriz[i][j];
+                k+=1;
             }
-            visitados.add(i);
+
+            if (j==grafo.vertices-1)
+            {
+                i+=1;
+                j=i;
+            }
+            else if (j<grafo.vertices-1)
+            {
+                j+=1;
+            }
+        }
+        mergesort(pesos,0,grafo.arcos-1);
+        ArrayList<Integer> visitados = new ArrayList<Integer>();
+        for (int p:pesos) 
+        {
+            i=0;
+            j=0;
+            while (i<grafo.vertices)
+            {
+                if (matriz[i][j] == p )
+                {
+                    result.agregarArco(i,j,p);
+                    if (!ciclo(result))
+                    {
+                    visitados.add(i);
+                    visitados.add(j);
+                    break;
+                    }
+                    result.removeArco(i,j);
+                }
+
+                if (j==grafo.vertices-1)
+                {
+                    i+=1;
+                    j = i;
+                }
+                else if (j<grafo.vertices-1)
+                {
+                    j+=1;
+                }
+            }
         }
         return result;
+    }
+   
+    
+    public static boolean ciclo(Grafo graph)
+    {
+
+        HashSet<Integer> visited = new HashSet<Integer>();
+        int numVertices = graph.vertices;
+
+        for (int i = 0; i < numVertices; i++)
+        {
+            if (visited.contains(i))
+            {
+                continue;
+            }
+
+            if (Dfs(i, Integer.MIN_VALUE, visited, numVertices, graph.matAdj))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean Dfs(int vertex, int parent, HashSet<Integer> visited, int numVertices, int[][] adjMatrix)
+    {
+        visited.add(vertex);
+
+        for (int i = 0; i < numVertices; i++)
+        {
+            // skip if i is parent (this is allowed in undirected graphs)
+            if (i == parent)
+            {
+                continue;
+            }
+
+            // skip if not vertex in matrix
+            if (adjMatrix[vertex][i]==0)
+            {
+                continue;
+            }
+
+            // cycle if already visited
+            if (visited.contains(i))
+            {
+                return true;
+            }
+
+            if (Dfs(i, vertex, visited, numVertices, adjMatrix))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
