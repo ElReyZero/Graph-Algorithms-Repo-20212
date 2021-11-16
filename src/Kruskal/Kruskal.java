@@ -28,6 +28,7 @@ public class Kruskal
             }
             System.out.println(impresion);
         }
+        System.out.println(result.peso);
     }
     
     public static void mergesort(int A[],int izq, int der){
@@ -77,12 +78,15 @@ public class Kruskal
         int vertices;
         int arcos;
         int[][] matAdj;
+        int peso;
         //ArrayList<Integer> listaDeNodos = new ArrayList<Integer>();
         //ArrayList<Arco> listaArcos = new ArrayList<Arco>();
         public Grafo(int tamano)
         {
             this.vertices = tamano;
             this.matAdj = new int[tamano][tamano];
+            this.peso = 0;
+            this.arcos = 0;
             /*
             for (int i = 0; i < tamano; i++) 
             {
@@ -96,13 +100,15 @@ public class Kruskal
             this.matAdj[nodoInicio][nodoFin] = peso;
             this.matAdj[nodoFin][nodoInicio] = peso;
             this.arcos += 1;
+            this.peso += peso;
             //this.listaArcos.add(new Arco(nodoInicio, nodoFin, peso));
         }
-        public void removeArco(int nodoInicio,int nodoFin)
+        public void removerArco(int nodoInicio,int nodoFin, int peso)
         {
-            this.matAdj[nodoInicio][nodoFin] =0;
-            this.matAdj[nodoFin][nodoInicio] =0;
-            this.arcos -=1;
+            this.matAdj[nodoInicio][nodoFin] = 0;
+            this.matAdj[nodoFin][nodoInicio] = 0;
+            this.arcos -= 1;
+            this.peso -= peso;
         }
         /*
         public void ordenarArcos()
@@ -155,11 +161,14 @@ public class Kruskal
                     result.agregarArco(i,j,p);
                     if (!ciclo(result))
                     {
-                    visitados.add(i);
-                    visitados.add(j);
-                    break;
+                        visitados.add(i);
+                        visitados.add(j);
+                        break;
                     }
-                    result.removeArco(i,j);
+                    else
+                    {
+                        result.removerArco(i,j, p);
+                    }   
                 }
 
                 if (j==grafo.vertices-1)
@@ -190,7 +199,7 @@ public class Kruskal
                 continue;
             }
 
-            if (Dfs(i, Integer.MIN_VALUE, visited, numVertices, graph.matAdj))
+            if (dfs(i, Integer.MIN_VALUE, visited, numVertices, graph.matAdj))
             {
                 return true;
             }
@@ -199,7 +208,7 @@ public class Kruskal
         return false;
     }
 
-    public static boolean Dfs(int vertex, int parent, HashSet<Integer> visited, int numVertices, int[][] adjMatrix)
+    public static boolean dfs(int vertex, int parent, HashSet<Integer> visited, int numVertices, int[][] adjMatrix)
     {
         visited.add(vertex);
 
@@ -223,7 +232,7 @@ public class Kruskal
                 return true;
             }
 
-            if (Dfs(i, vertex, visited, numVertices, adjMatrix))
+            if (dfs(i, vertex, visited, numVertices, adjMatrix))
             {
                 return true;
             }
