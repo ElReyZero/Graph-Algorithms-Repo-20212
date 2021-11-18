@@ -137,7 +137,6 @@ public class Kruskal
                 pesos[k] = matriz[i][j];
                 k+=1;
             }
-
             if (j==grafo.vertices-1)
             {
                 i+=1;
@@ -149,7 +148,6 @@ public class Kruskal
             }
         }
         mergesort(pesos,0,grafo.arcos-1);
-        ArrayList<Integer> visitados = new ArrayList<Integer>();
         for (int p:pesos) 
         {
             i=0;
@@ -161,8 +159,6 @@ public class Kruskal
                     result.agregarArco(i,j,p);
                     if (!ciclo(result))
                     {
-                        visitados.add(i);
-                        visitados.add(j);
                         break;
                     }
                     else
@@ -170,7 +166,6 @@ public class Kruskal
                         result.removerArco(i,j, p);
                     }   
                 }
-
                 if (j==grafo.vertices-1)
                 {
                     i+=1;
