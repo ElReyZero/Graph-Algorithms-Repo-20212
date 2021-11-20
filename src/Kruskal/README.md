@@ -33,7 +33,6 @@ Nota: Se toma un caso por línea, es decir, cada línea del archivo .in comprend
 4. Ejecutar el comando `java Kruskal.Kruskal < nombreEntrada.in > nombreSalida.out`
 
 # Salida
----------------------------------------------
 Grafo Caso #: 1
 
 Matriz del grafo resultante: 
