@@ -10,7 +10,7 @@ Por:
 numVertices nodoIni1,nodoFin1,peso1 nodoIni2,nodoFin2,peso2 ... nodoInin,nodoFinn,peson
 
 - Donde numVertices es el número de nodos que tiene el grafo, los nodoIni son nodo de inicio, los nodoFin son los nodo destino y el peso es el peso del arco que los conecta.
-- Nota: La implementación trabaja con un arco no dirigido y se encarga de agregar arco de ida y vuelta a la lista de adyacencias, por lo cual solo es necesario ingresar cada arco en una sola dirección.
+- Nota: La implementación trabaja con un arco no dirigido y se encarga de agregar arco de ida y vuelta a la matriz de adyacencias, por lo cual solo es necesario ingresar cada arco en una sola dirección.
 
 Ejemplo:
 6 0,1,6 0,2,1 0,3,5 1,2,5 1,4,3 2,3,5 2,5,4 2,4,6 3,5,2 4,5,6
