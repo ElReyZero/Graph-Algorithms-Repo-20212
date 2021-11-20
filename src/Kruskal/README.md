@@ -33,7 +33,16 @@ Nota: Se toma un caso por línea, es decir, cada línea del archivo .in comprend
 4. Ejecutar el comando `java Kruskal.Kruskal < nombreEntrada.in > nombreSalida.out`
 
 # Salida
-
+---------------------------------------------
+Grafo Caso #: 1
+Matriz del grafo resultante: 
+0, 0, 1, 0, 0, 0, 
+0, 0, 5, 0, 3, 0, 
+1, 5, 0, 0, 0, 4, 
+0, 0, 0, 0, 0, 2, 
+0, 3, 0, 0, 0, 0, 
+0, 0, 4, 2, 0, 0, 
+El peso del grafo resultante es: 15
 
 # Ejemplos de uso
 En los archivos kruskal.in y kruskal.out se pueden ver ejemplos concretos del programa
