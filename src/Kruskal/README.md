@@ -35,6 +35,7 @@ Nota: Se toma un caso por línea, es decir, cada línea del archivo .in comprend
 # Salida
 ---------------------------------------------
 Grafo Caso #: 1
+
 Matriz del grafo resultante: 
 0, 0, 1, 0, 0, 0, 
 
