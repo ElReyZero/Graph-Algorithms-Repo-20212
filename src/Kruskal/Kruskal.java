@@ -1,34 +1,53 @@
 package Kruskal;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 
 public class Kruskal 
 {
     public static void main(String[] args)
     {
-        Grafo grafoEjemplo = new Grafo(6);
-        grafoEjemplo.agregarArco(0,1,6);
-        grafoEjemplo.agregarArco(0,2,1);
-        grafoEjemplo.agregarArco(0,3,5);
-        grafoEjemplo.agregarArco(1,2,5);
-        grafoEjemplo.agregarArco(1,4,3);
-        grafoEjemplo.agregarArco(2,3,5);
-        grafoEjemplo.agregarArco(2,5,4);
-        grafoEjemplo.agregarArco(2,4,6);
-        grafoEjemplo.agregarArco(3,5,2);
-        grafoEjemplo.agregarArco(4,5,6);
-        Grafo result = kruskal(grafoEjemplo);   
-        for (int i =0;i<result.vertices;i++)
+        try
+        (
+            InputStreamReader is = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(is);
+        )
         {
-            String impresion="";
-            for(int j =0;j<result.vertices;j++)
-            {
-                impresion += result.matAdj[i][j]+", ";
-            }
-            System.out.println(impresion);
+            Grafo g;
+                String line = br.readLine();
+                int contador = 0;
+                while(line!=null && line.length()>0 && !"0".equals(line))
+                {
+                    final String[] dataStr = line.split(" ");
+                    g = new Grafo(Integer.parseInt(dataStr[0]));
+                    contador++;
+                    for (int i = 1; i<dataStr.length; i++)
+                    {
+                        final String[] nodoStr = dataStr[i].split(",");
+                        g.agregarArco(Integer.parseInt(nodoStr[0]), Integer.parseInt(nodoStr[1]), Integer.parseInt(nodoStr[2]));
+                    }
+                    Grafo res = kruskal(g);
+                    String impresion="---------------------------------------------\nGrafo Caso #: " + contador+"\n";
+                    impresion += "Matriz del grafo resultante: ";
+                    System.out.println(impresion);
+                    for (int i =0;i<res.vertices;i++)
+                    {
+                        String impresionMatriz = "";
+                        for(int j =0;j<res.vertices;j++)
+                        {
+                            impresionMatriz += res.matAdj[i][j]+", ";
+                        }
+                        System.out.println(impresionMatriz);
+                    }
+                    System.out.println("El peso del grafo resultante es: " + res.peso);
+                    line = br.readLine();
+                }
         }
-        System.out.println(result.peso);
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     public static void mergesort(int A[],int izq, int der){
@@ -57,42 +76,18 @@ public class Kruskal
               A[k++]=B[i++]; //primera mitad (si los hay)
      }
 
-    static class Arco
-    {
-        int anterior;
-        int siguiente;
-        int peso;
-
-        public Arco(int anterior, int siguiente, int peso)
-        {
-            this.anterior = anterior;
-            this.siguiente = siguiente;
-            this.peso = peso;
-        }
-
-    }
-
-
     static public class Grafo
     {
         int vertices;
         int arcos;
         int[][] matAdj;
         int peso;
-        //ArrayList<Integer> listaDeNodos = new ArrayList<Integer>();
-        //ArrayList<Arco> listaArcos = new ArrayList<Arco>();
         public Grafo(int tamano)
         {
             this.vertices = tamano;
             this.matAdj = new int[tamano][tamano];
             this.peso = 0;
             this.arcos = 0;
-            /*
-            for (int i = 0; i < tamano; i++) 
-            {
-                listaDeNodos.add(i);
-            }
-            */
         }
 
         public void agregarArco(int nodoInicio, int nodoFin, int peso)
@@ -101,7 +96,6 @@ public class Kruskal
             this.matAdj[nodoFin][nodoInicio] = peso;
             this.arcos += 1;
             this.peso += peso;
-            //this.listaArcos.add(new Arco(nodoInicio, nodoFin, peso));
         }
         public void removerArco(int nodoInicio,int nodoFin, int peso)
         {
@@ -110,14 +104,7 @@ public class Kruskal
             this.arcos -= 1;
             this.peso -= peso;
         }
-        /*
-        public void ordenarArcos()
-        {
-            mergesort(pesos,0,arcos-1);
-        }
-        */
     }
-
     
     /** 
      * @param grafo
@@ -154,7 +141,7 @@ public class Kruskal
             j=0;
             while (i<grafo.vertices)
             {
-                if (matriz[i][j] == p )
+                if (matriz[i][j] == p && result.matAdj[i][j] == 0)
                 {
                     result.agregarArco(i,j,p);
                     if (!ciclo(result))
@@ -163,7 +150,7 @@ public class Kruskal
                     }
                     else
                     {
-                        result.removerArco(i,j, p);
+                        result.removerArco(i,j,p);
                     }   
                 }
                 if (j==grafo.vertices-1)
@@ -183,7 +170,6 @@ public class Kruskal
     
     public static boolean ciclo(Grafo graph)
     {
-
         HashSet<Integer> visited = new HashSet<Integer>();
         int numVertices = graph.vertices;
 
@@ -199,7 +185,6 @@ public class Kruskal
                 return true;
             }
         }
-
         return false;
     }
 

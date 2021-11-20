@@ -45,7 +45,7 @@ public class Prim
                     System.out.println(impresion);
                     System.out.println("\nPeso total: "+res.pesoTotal);                                        
                     line = br.readLine();
-                }           
+                }
             } 
         catch (Exception e) 
         {
