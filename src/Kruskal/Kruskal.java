@@ -6,6 +6,10 @@ import java.util.HashSet;
 
 public class Kruskal 
 {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args)
     {
         try
@@ -50,6 +54,12 @@ public class Kruskal
         }
     }
     
+    
+    /** 
+     * @param A[]
+     * @param izq
+     * @param der
+     */
     public static void mergesort(int A[],int izq, int der){
         if (izq < der){
                 int m=(izq+der)/2;
@@ -58,6 +68,13 @@ public class Kruskal
                 merge(A,izq, m, der);                                                                                 
         }
     }
+    
+    /** 
+     * @param A[]
+     * @param izq
+     * @param m
+     * @param der
+     */
     public static void merge(int A[],int izq, int m, int der){
         int i, j, k;
         int [] B = new int[A.length]; //array auxiliar
@@ -168,6 +185,11 @@ public class Kruskal
     }
    
     
+    
+    /** 
+     * @param graph
+     * @return boolean
+     */
     public static boolean ciclo(Grafo graph)
     {
         HashSet<Integer> visited = new HashSet<Integer>();
@@ -188,6 +210,15 @@ public class Kruskal
         return false;
     }
 
+    
+    /** 
+     * @param vertex
+     * @param parent
+     * @param visited
+     * @param numVertices
+     * @param adjMatrix
+     * @return boolean
+     */
     public static boolean dfs(int vertex, int parent, HashSet<Integer> visited, int numVertices, int[][] adjMatrix)
     {
         visited.add(vertex);
