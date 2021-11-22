@@ -68,13 +68,10 @@ public class Prim
         {
             this.vertices = vertices;
             listaAdyacencia = (LinkedList<Node>[]) new LinkedList<?>[vertices];
-
-
             for(int i = 0; i < vertices; i++)
             {
                 listaAdyacencia[i] = new LinkedList<Node>();
             }
-
         }
 
         /**
