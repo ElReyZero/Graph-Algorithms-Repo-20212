@@ -1,8 +1,8 @@
 package IsBipartite;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Queue;
 
 @SuppressWarnings("unchecked")
@@ -25,7 +25,12 @@ public class Bipartito
         grafoEjemplo.agregarNodo(4,5);
         grafoEjemplo.agregarNodo(5,6);
 
-        ArrayList<Integer>[] res = isBipartite(grafoEjemplo, grafoEjemplo.listaAdyacencia[1].get(0));
+        Grafo grafo2 = new Grafo(5);
+        grafo2.agregarNodo(0,1);
+        grafo2.agregarNodo(0,3);
+        grafo2.agregarNodo(1,2);
+        grafo2.agregarNodo(3,4);
+        ArrayList<Integer>[] res = isBipartite(grafo2, grafo2.listaAdyacencia[1].get(0));
         System.out.println(res);
     }
 
@@ -94,46 +99,46 @@ public class Bipartito
         Queue<Node> q = new LinkedList<Node>();
         ArrayList<Integer> blancos = new ArrayList<Integer>();
         ArrayList<Integer> negros = new ArrayList<Integer>();
-        boolean[] descubiertos = new boolean[g.vertices]; 
-        Node[] parents = new Node[g.vertices]; 
+        Node[] descubiertos = new Node[g.vertices]; 
         Node vActual;
         Node vSiguiente;
         LinkedList<Node> p;
 
         q.add(inicio);
-        descubiertos[inicio.numNodo] = true;
-
+        descubiertos[inicio.numNodo] = inicio;
+        blancos.add(inicio.numNodo);
+        inicio.setColor("BLANCO");
         while(!q.isEmpty())
         {
             vActual = q.poll();
-            blancos.add(vActual.numNodo);
-            vActual.setColor("BLANCO");
             p = g.listaAdyacencia[vActual.numNodo];
-            Iterator<Node> it = p.listIterator();
+            ListIterator<Node> it = p.listIterator();
             while(it.hasNext())
             {
                 vSiguiente = it.next();
-                if(!descubiertos[vSiguiente.numNodo])
+                if(descubiertos[vSiguiente.numNodo] == null)
                 {
+                    if(vActual.color.equals("BLANCO"))
+                    {
+                        negros.add(vSiguiente.numNodo);
+                        vSiguiente.setColor("NEGRO");
+                    }
+                    else
+                    {
+                        blancos.add(vSiguiente.numNodo);
+                        vSiguiente.setColor("BLANCO");
+                    } 
+                    descubiertos[vSiguiente.numNodo] = vSiguiente;
                     q.add(vSiguiente);
-                    descubiertos[vSiguiente.numNodo] = true;
-                    negros.add(vSiguiente.numNodo);
-                    vSiguiente.setColor("NEGRO");
-                    parents[vSiguiente.numNodo] = vActual;
                 }
-                else
+                else if(descubiertos[vSiguiente.numNodo].color.equals(vActual.color))
                 {
-                    if (parents[vSiguiente.numNodo] == null)
-                    {
-                        continue;
-                    }
-                    else if(vSiguiente.color.equals(parents[vSiguiente.numNodo].color))
-                    {
-                        return null;
-                    }
+                    return null;
                 }
             }
         }
+        resultado[0] = blancos;
+        resultado[1] = negros;
         return resultado;
     }
 }
