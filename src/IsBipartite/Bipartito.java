@@ -31,7 +31,27 @@ public class Bipartito
         grafo2.agregarNodo(1,2);
         grafo2.agregarNodo(3,4);
         ArrayList<Integer>[] res = isBipartite(grafo2, grafo2.listaAdyacencia[1].get(0));
-        System.out.println(res);
+        if (res == null)
+        {
+            System.out.println("El grafo no es Bipartito");
+        }
+        else
+        {
+            System.out.println("El grafo si es bipartito");
+            String impresion="Los conjuntos disyuntos de vértices son:\n";
+            int contador = 1;
+            for (ArrayList<Integer> lista:res)
+            {
+                impresion += "Conjunto " + contador +":\n";
+                for (int elemento : lista)
+                {
+                    impresion += elemento+", ";
+                }
+                impresion += "\n";
+                contador ++;
+            }
+            System.out.println(impresion);
+        }
     }
 
 
