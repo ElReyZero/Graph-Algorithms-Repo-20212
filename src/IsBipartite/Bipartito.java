@@ -10,6 +10,10 @@ import java.util.Queue;
 @SuppressWarnings("unchecked")
 public class Bipartito 
 {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args)
     {
         try 
@@ -120,6 +124,12 @@ public class Bipartito
         }
     }
 
+    
+    /** 
+     * @param g Grafo a analizar
+     * @param inicio nodo de inicio del algoritmo
+     * @return ArrayList<Integer>[]
+     */
     public static ArrayList<Integer>[] isBipartite(Grafo g, Node inicio)
     {
         ArrayList<Integer>[] resultado = (ArrayList<Integer>[]) new ArrayList<?>[2];
