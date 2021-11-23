@@ -1,5 +1,7 @@
 package IsBipartite;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -8,49 +10,55 @@ import java.util.Queue;
 @SuppressWarnings("unchecked")
 public class Bipartito 
 {
-
     public static void main(String[] args)
     {
-        Grafo grafoEjemplo = new Grafo(7);
-        grafoEjemplo.agregarNodo(0,1);
-        grafoEjemplo.agregarNodo(0,2);
-        grafoEjemplo.agregarNodo(0,3);
-        grafoEjemplo.agregarNodo(1,4);
-        grafoEjemplo.agregarNodo(1,2);
-        grafoEjemplo.agregarNodo(2,4);
-        grafoEjemplo.agregarNodo(2,5);
-        grafoEjemplo.agregarNodo(2,3);
-        grafoEjemplo.agregarNodo(3,5);
-        grafoEjemplo.agregarNodo(4,6);
-        grafoEjemplo.agregarNodo(4,5);
-        grafoEjemplo.agregarNodo(5,6);
-
-        Grafo grafo2 = new Grafo(5);
-        grafo2.agregarNodo(0,1);
-        grafo2.agregarNodo(0,3);
-        grafo2.agregarNodo(1,2);
-        grafo2.agregarNodo(3,4);
-        ArrayList<Integer>[] res = isBipartite(grafo2, grafo2.listaAdyacencia[1].get(0));
-        if (res == null)
+        try 
+        (
+            InputStreamReader is = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(is);
+        )
         {
-            System.out.println("El grafo no es Bipartito");
-        }
-        else
-        {
-            System.out.println("El grafo si es bipartito");
-            String impresion="Los conjuntos disyuntos de vértices son:\n";
-            int contador = 1;
-            for (ArrayList<Integer> lista:res)
+            Grafo g;
+            String line = br.readLine();
+            int contador = 0;
+            while(line!=null && line.length()>0 && !"0".equals(line))
             {
-                impresion += "Conjunto " + contador +":\n";
-                for (int elemento : lista)
+                final String[] dataStr = line.split(" ");
+                g = new Grafo(Integer.parseInt(dataStr[0]), Integer.parseInt(dataStr[1]));
+                contador++;
+                for(int i = 2; i<dataStr.length; i+=2) 
                 {
-                    impresion += elemento+", ";
+                    g.agregarArco(Integer.parseInt(dataStr[i]), Integer.parseInt(dataStr[i+1]));
                 }
-                impresion += "\n";
-                contador ++;
+                ArrayList<Integer>[] res = isBipartite(g, g.listaAdyacencia[1].get(0));
+                String impresion="---------------------------------------------\nGrafo Caso #: " + contador;
+                if (res == null)
+                {
+                    System.out.println(impresion);
+                    System.out.println("Respuesta del algoritmo: false");
+                }
+                else
+                {
+                    impresion += "\nRespuesta del algoritmo: true\nLos conjuntos disyuntos de vértices son:\n";
+                    int contador2 = 1;
+                    for (ArrayList<Integer> lista:res)
+                    {
+                        impresion += "Conjunto " + contador2 +":\n";
+                        for (int elemento : lista)
+                        {
+                            impresion += elemento+", ";
+                        }
+                        impresion += "\n";
+                        contador2 ++;
+                    }
+                    System.out.println(impresion);
+                }
+                line = br.readLine();
             }
-            System.out.println(impresion);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -59,6 +67,7 @@ public class Bipartito
     {
         int vertices;
         int pesoTotal;
+        int arcos;
         LinkedList<Node>[] listaAdyacencia;
 
         /**
@@ -66,9 +75,10 @@ public class Bipartito
          * @param vertices Cantidad de vertices del grafo
          * @param listaAdyacencia Es la lista que contiene los nodos del grafo
          */
-        public Grafo(int vertices)
+        public Grafo(int vertices, int arcos)
         {
             this.vertices = vertices;
+            this.arcos = arcos;
             listaAdyacencia = (LinkedList<Node>[]) new LinkedList<?>[vertices];
             for(int i = 0; i < vertices; i++)
             {
@@ -83,7 +93,7 @@ public class Bipartito
          * @param numNodo Valor del nodo a insertar
          * @param peso Peso del arco entre ambos nodos
          */
-        public void agregarNodo(int nodoRaizAnterior, int numNodo)
+        public void agregarArco(int nodoRaizAnterior, int numNodo)
         {
             this.listaAdyacencia[nodoRaizAnterior].add(new Node(numNodo));
             this.listaAdyacencia[numNodo].add(new Node(nodoRaizAnterior));

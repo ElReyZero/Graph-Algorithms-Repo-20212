@@ -1,0 +1,12 @@
+---------------------------------------------
+Grafo Caso #: 1
+Respuesta del algoritmo: false
+---------------------------------------------
+Grafo Caso #: 2
+Respuesta del algoritmo: true
+Los conjuntos disyuntos de vértices son:
+Conjunto 1:
+0, 2, 4, 
+Conjunto 2:
+1, 3, 
+
