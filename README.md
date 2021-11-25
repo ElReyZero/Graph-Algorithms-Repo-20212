@@ -1,6 +1,12 @@
 # Tarea 5  - Diseño y Análisis de Algoritmos - 202120
 
 Este proyecto contiene la solución a los algoritmos de la tarea 5 para la clase de Diseño y Análisis de Algoritmos 2021-2.
+ * Realizado por: 
+
+    Juan Andrés Romero C - 202013449
+    
+    Luccas Rojas - 201923052
+ 
 
 # Estructura de archivos:
 
