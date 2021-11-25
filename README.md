@@ -4,6 +4,7 @@ Este proyecto contiene la solución a los algoritmos de la tarea 5 para la clase
 
 # Estructura de archivos:
 
+```
 📦src
  ┣ 📂IsBipartite
  ┃ ┣ 📜bipartito.in
@@ -25,7 +26,7 @@ Este proyecto contiene la solución a los algoritmos de la tarea 5 para la clase
  ┃ ┣ 📜SubconjuntoSuma.py
  ┃ ┣ 📜Z.in
  ┃ ┗ 📜z.out
-
+```
  * IsBipartite contiene el algoritmo para identificar si un grafo (Como lista de Adyacencias) es bipartito o no.
 
  * Kruskal contiene el algoritmo de Kruskal usando matriz de adyacencia
